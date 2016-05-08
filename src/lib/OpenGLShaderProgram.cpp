@@ -12,6 +12,8 @@ OpenGLShaderProgram::OpenGLShaderProgram() {
 OpenGLShaderProgram::~OpenGLShaderProgram() {
 	glDeleteProgram(program_);
 	program_ = 0;
+
+	printf("~OpenGLShaderProgram\n");
 }
 
 void OpenGLShaderProgram::loadShaderFromString(GLenum shader_type, const char* source, int length) {
@@ -93,19 +95,28 @@ void OpenGLShaderProgram::unbind() {
 
 GLint OpenGLShaderProgram::getUniformLocation(const std::string& name) {
 	GLint location;
-	auto it = uniforms.find(name);
-	if(it != uniforms.end()){
+	auto it = uniforms_.find(name);
+	if(it != uniforms_.end()){
 		location = it->second;
 	}else{
 		location = glGetUniformLocation(program_, name.c_str());
-		uniforms[name] = location;
+		uniforms_[name] = location;
 	}
 
 	return location;
 }
 
 GLint OpenGLShaderProgram::getAttributeLocation(const std::string& name){
-    return glGetAttribLocation(program_, name.c_str());
+	GLint location;
+	auto it = attributes_.find(name);
+	if(it != attributes_.end()){
+		location = it->second;
+	}else{
+		location = glGetAttribLocation(program_, name.c_str());
+		attributes_[name] = location;
+	}
+
+	return location;
 }
 
 void OpenGLShaderProgram::setMat4x4(const std::string& name, const float* value){

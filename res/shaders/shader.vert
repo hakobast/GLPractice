@@ -2,8 +2,12 @@
 
 uniform mat4 mvpMat;
 
-attribute vec3 position;
+attribute vec4 vColor;
+attribute vec3 vPosition;
+
+varying vec4 color;
 
 void main(){
-    gl_Position = mvpMat * vec4(position, 1.0);
+    color = vColor;
+    gl_Position = mvpMat * vec4(vPosition, 1.0);
 }

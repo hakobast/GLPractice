@@ -9,8 +9,6 @@
 
 class Drawable : public GameObject{
 public:
-    Drawable();
-    virtual ~Drawable();
     virtual void draw(glm::mat4& pMat, glm::mat4& vMat) = 0;
 };
 

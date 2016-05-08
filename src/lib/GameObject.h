@@ -6,11 +6,9 @@
 #define GAMEOBJECT_H
 
 
-#include <cstdint>
 #include <glm/glm.hpp>
 
 class GameObject {
-
 public:
     GameObject();
     virtual ~GameObject();
@@ -19,9 +17,9 @@ public:
     void translate(float dX, float dY);
     const glm::mat4& getTransformMatrix();
 private:
-    glm::mat4 mMat;
-    float x;
-    float y;
+    glm::mat4 mMat_;
+    float x_ = 0;
+    float y_ = 0;
 };
 
 

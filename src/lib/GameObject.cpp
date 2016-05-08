@@ -11,16 +11,16 @@ GameObject::~GameObject() {
 }
 
 void GameObject::setPosition(float x, float y){
-    this->x = x;
-    this->y = y;
-    mMat[3][0] = x;
-    mMat[3][1] = y;
+    this->x_ = x;
+    this->y_ = y;
+    mMat_[3][0] = x;
+    mMat_[3][1] = y;
 }
 
 void GameObject::translate(float dX, float dY){
-    setPosition(x+dX, y+dY);
+    setPosition(x_+dX, y_+dY);
 }
 
 const glm::mat4& GameObject::getTransformMatrix() {
-    return mMat;
+    return mMat_;
 }

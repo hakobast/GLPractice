@@ -6,7 +6,7 @@
 #define OPENGL_SHADER_PROGRAM_H
 
 #include "ShaderProgram.h"
-#include <SFML/OpenGL.hpp>
+#include "OpenGL.h"
 #include <unordered_map>
 
 class OpenGLShaderProgram : public ShaderProgram{
@@ -25,9 +25,10 @@ public:
 
 private:
 	enum ShaderType{VERTEX_SHADER, FRAGMENT_SHADER};
-	GLuint program_;
-	GLuint shaders_[2];
-	std::unordered_map<std::string, GLint> uniforms;
+	GLuint program_ = 0;
+	GLuint shaders_[2] = {0};
+	std::unordered_map<std::string, GLint> uniforms_;
+	std::unordered_map<std::string, GLint> attributes_;
 };
 
 #endif

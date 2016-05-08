@@ -6,7 +6,8 @@
 #define SHAPE_H
 
 #include "../lib/Drawable.h"
-#include "../lib/OpenGLShaderProgram.h"
+#include "../lib/ShaderProgram.h"
+#include "../lib/Drawer.h"
 
 class Shape : public Drawable{
 public:
@@ -15,8 +16,8 @@ public:
     virtual void draw(glm::mat4& pMat, glm::mat4& vMat);
     virtual void update();
 private:
-    ShaderProgram::Pointer shader;
-    GLuint vertexBuffer;
+    ShaderProgram::Pointer shader_;
+    Drawer::Pointer drawer_;
 };
 
 

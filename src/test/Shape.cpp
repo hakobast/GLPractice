@@ -3,16 +3,52 @@
 //
 
 #include "Shape.h"
-#include <glm/gtc/type_ptr.hpp>
+#include "../lib/OpenGLShaderProgram.h"
+#include "../lib/OpenGLBuffer.h"
+#include "../lib/OpenGLDrawer.h"
 #include "../lib/WinAssetLoader.h"
+#include <glm/gtc/type_ptr.hpp>
+
+void printGLError(){
+    GLenum error = glGetError();
+    switch(error){
+        case GL_INVALID_ENUM:{
+            printf("GL_INVALID_ENUM\n");
+            break;
+        }
+        case GL_INVALID_VALUE:{
+            printf("GL_INVALID_VALUE\n");
+            break;
+        }
+        case GL_INVALID_OPERATION:{
+            printf("GL_INVALID_OPERATION\n");
+            break;
+        }
+        case GL_INVALID_FRAMEBUFFER_OPERATION:{
+            printf("GL_INVALID_FRAMEBUFFER_OPERATION\n");
+            break;
+        }
+        case GL_OUT_OF_MEMORY:{
+            printf("GL_OUT_OF_MEMORY\n");
+            break;
+        }
+        default:{
+            printf("Unknown\n");
+        }
+    }
+}
 
 Shape::Shape(){
+    float g_vertex_buffer_data[] = {
+            -1.0f,  -1.0f,  0.0f,
+             1.0f,  -1.0f,  0.0f,
+             0.0f,   1.0f,  0.0f,
+    };
 
-    // creating vertex and fragment shaders
-    const GLfloat g_vertex_buffer_data[] = {
-            -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-            0.0f,  1.0f, 0.0f,
+    float g_vertex_color_buffer_data[] = {
+            1.0f, 0.0f, 0.0f, 1.0f,
+            0.0f, 1.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f, 1.0f
     };
 
     WinAssetLoader assetLoader;
@@ -20,41 +56,46 @@ Shape::Shape(){
     AssetFile fragmentAsset = assetLoader.loadAsset("res/shaders/shader.frag");
 
 
-    auto shaderProgram = std::make_shared<OpenGLShaderProgram>();
-    shaderProgram->loadShaderFromString(GL_VERTEX_SHADER, (char*)vertexAsset.data, (int)vertexAsset.length);
-    shaderProgram->loadShaderFromString(GL_FRAGMENT_SHADER, (char*)fragmentAsset.data, (int)fragmentAsset.length);
-    shaderProgram->createAndLinkProgram();
+    auto shader = std::make_shared<OpenGLShaderProgram>();
+    shader->loadShaderFromString(GL_VERTEX_SHADER, (char*)vertexAsset.data, (int)vertexAsset.length);
+    shader->loadShaderFromString(GL_FRAGMENT_SHADER, (char*)fragmentAsset.data, (int)fragmentAsset.length);
+    shader->createAndLinkProgram();
 
-    // creating vertex buffer
-    glGenBuffers(1, &vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    uint32_t vPos = shader->getAttributeLocation("vPosition");
+    uint32_t vColor = shader->getAttributeLocation("vColor");
+
+    auto vPositionBuffer = std::make_shared<OpenGLBuffer>();
+    vPositionBuffer->bind();
+    vPositionBuffer->setData(sizeof(g_vertex_buffer_data), g_vertex_buffer_data);
+    vPositionBuffer->unbind();
+
+    auto vColorBuffer = std::make_shared<OpenGLBuffer>();
+    vColorBuffer->bind();
+    vColorBuffer->setData(sizeof(g_vertex_color_buffer_data), g_vertex_color_buffer_data);
+    vColorBuffer->unbind();
+
+    auto drawer = std::make_shared<OpenGLDrawer>();
+    drawer->addAttribute(vPos, 3, AttributeFormat::FLOAT, 0, vPositionBuffer);
+    drawer->addAttribute(vColor, 4, AttributeFormat::FLOAT, 0, vColorBuffer);
 
     assetLoader.releaseAsset(&vertexAsset);
     assetLoader.releaseAsset(&fragmentAsset);
 
-    this->shader = shaderProgram;
+    this->shader_ = shader;
+    this->drawer_ = drawer;
 }
 
 Shape::~Shape(){
-    glDeleteBuffers(1, &vertexBuffer);
 }
 
 void Shape::draw(glm::mat4& pMat, glm::mat4& vMat){
 
-    shader->bind();
-    shader->setMat4x4("mvpMat", glm::value_ptr(pMat * vMat * getTransformMatrix()));
+    shader_->bind();
+    shader_->setMat4x4("mvpMat", glm::value_ptr(pMat * vMat * getTransformMatrix()));
 
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+    drawer_->draw(DrawingType::TRIANGLE, 0, 3);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glDisableVertexAttribArray(0);
-    shader->unbind();
+    shader_->unbind();
 }
 
 void Shape::update(){
