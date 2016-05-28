@@ -9,6 +9,10 @@
 
 using namespace std;
 
+WinAssetLoader::~WinAssetLoader() {
+	printf("~WinAssetLoader\n");
+}
+
 AssetFile WinAssetLoader::loadAsset(const char* path) {
 	if (path != NULL) {
 		ifstream file(path, ios::in | ios::binary | ios::ate);

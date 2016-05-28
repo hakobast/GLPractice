@@ -7,19 +7,22 @@
 
 
 #include <glm/glm.hpp>
+#include "../mat/Vector2.h"
 
 class GameObject {
 public:
     GameObject();
     virtual ~GameObject();
     virtual void update() = 0;
-    void setPosition(float x, float y);
-    void translate(float dX, float dY);
+    void setPosition(const Vector2& position);
+    void setRotation(float angle);
+    void translate(const Vector2& deltaPosition);
+    void rotate(float deltaAngle);
     const glm::mat4& getTransformMatrix();
 private:
     glm::mat4 mMat_;
-    float x_ = 0;
-    float y_ = 0;
+    Vector2 position_;
+    float angle_;
 };
 
 

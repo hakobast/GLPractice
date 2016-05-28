@@ -5,7 +5,7 @@
 #ifndef DRAWER_H
 #define DRAWER_H
 
-#include "SmartPointer.h"
+#include "../../utils/SmartPointer.h"
 #include "Buffer.h"
 #include <vector>
 

@@ -24,8 +24,8 @@ void OpenGLDrawer::draw(DrawingType type, uint32_t startIndex, uint32_t count){
 
     for(auto& att : attributes){
         glDisableVertexAttribArray(att.index);
-        att.buffer->unbind();
     }
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 GLenum OpenGLDrawer::toGL(AttributeFormat format){

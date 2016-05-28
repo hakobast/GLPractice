@@ -5,8 +5,8 @@
 #ifndef OPENGL_SHADER_PROGRAM_H
 #define OPENGL_SHADER_PROGRAM_H
 
-#include "ShaderProgram.h"
-#include "OpenGL.h"
+#include "../../core/render/ShaderProgram.h"
+#include "../OpenGL.h"
 #include <unordered_map>
 
 class OpenGLShaderProgram : public ShaderProgram{
@@ -15,6 +15,7 @@ public:
 	virtual ~OpenGLShaderProgram();
 	virtual void bind();
 	virtual void unbind();
+	virtual void setAttribute(const std::string& name, uint32_t index);
 	virtual void setMat4x4(const std::string& name, const float* value);
 
 	void loadShaderFromString(GLenum shader_type, const char* source, int length);

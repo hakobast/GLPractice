@@ -5,8 +5,8 @@
 #ifndef OPENGLDRAWER_H
 #define OPENGLDRAWER_H
 
-#include "OpenGL.h"
-#include "Drawer.h"
+#include "../OpenGL.h"
+#include "../../core/render/Drawer.h"
 
 class OpenGLDrawer : public Drawer{
 public:

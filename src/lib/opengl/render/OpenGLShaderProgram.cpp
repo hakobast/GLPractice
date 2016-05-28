@@ -119,6 +119,10 @@ GLint OpenGLShaderProgram::getAttributeLocation(const std::string& name){
 	return location;
 }
 
+void OpenGLShaderProgram::setAttribute(const std::string& name, uint32_t index){
+	glBindAttribLocation(program_, index, name.c_str());
+}
+
 void OpenGLShaderProgram::setMat4x4(const std::string& name, const float* value){
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, value);
 }

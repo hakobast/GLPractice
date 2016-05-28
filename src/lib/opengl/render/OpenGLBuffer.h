@@ -5,8 +5,8 @@
 #ifndef OPENGLBUFFER_H
 #define OPENGLBUFFER_H
 
-#include "Buffer.h"
-#include "OpenGL.h"
+#include "../../core/render/Buffer.h"
+#include "../OpenGL.h"
 
 class OpenGLBuffer : public Buffer{
 public:
