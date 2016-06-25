@@ -139,5 +139,5 @@ void OpenGLShaderProgram::setFloat(const std::string& name, float value){
 }
 
 void OpenGLShaderProgram::setColor(const std::string& name, const Color& color){
-	glUniform4f(getUniformLocation(name), color.getR(), color.getG(), color.getB(), color.getR());
+	glUniform4f(getUniformLocation(name), color.getR(), color.getG(), color.getB(), color.getA());
 }
