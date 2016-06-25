@@ -7,6 +7,13 @@
 
 #include "../utils/SmartPointer.h"
 
+enum class TextureFormat{
+	L = 1,
+	LA = 2,
+	RGB = 3,
+	RGBA = 4,
+};
+
 enum class TextureFilter{
 	LINEAR,
 	NEAREST,
@@ -20,8 +27,8 @@ enum class TextureWrapMode{
 
 class Texture : public SmartPointer<Texture>{
 public:
-	Texture(int width, int height, TextureFilter filter, TextureWrapMode wrapMode)
-			: width_(width), height_(height), filter_(filter), wrapMode_(wrapMode){};
+	Texture(int width, int height, TextureFormat format, TextureFilter filter, TextureWrapMode wrapMode)
+			: width_(width), height_(height), format_(format), filter_(filter), wrapMode_(wrapMode){};
 
 	virtual ~Texture(){}
 	virtual void setData(const unsigned char* data) = 0;
@@ -36,6 +43,10 @@ public:
 		return this->height_;
 	};
 
+	TextureFormat getFormat() const {
+		return this->format_;
+	}
+
 	TextureFilter getFilter() const {
 		return this->filter_;
 	}
@@ -47,6 +58,7 @@ public:
 private:
 	int width_;
 	int height_;
+	TextureFormat  format_;
 	TextureFilter  filter_;
 	TextureWrapMode  wrapMode_;
 };

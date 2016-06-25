@@ -11,8 +11,8 @@
 
 class OpenGLTexture : public Texture{
 public:
-	OpenGLTexture(int width, int height);
-	OpenGLTexture(int width, int height, TextureFilter filter, TextureWrapMode wrapMode);
+	OpenGLTexture(int width, int height, TextureFormat format);
+	OpenGLTexture(int width, int height, TextureFormat format, TextureFilter filter, TextureWrapMode wrapMode);
 	virtual ~OpenGLTexture();
 	virtual void setData(const unsigned char* data);
 	virtual void bind();
@@ -20,6 +20,7 @@ public:
 private:
 	bool pixelSet = false;
 	GLuint textureId_ = 0;
+	GLenum toGL(TextureFormat format);
 	GLenum toGL(TextureFilter filter);
 	GLenum toGL(TextureWrapMode wrapMode);
 };

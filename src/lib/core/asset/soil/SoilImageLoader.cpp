@@ -11,8 +11,8 @@ SoilImageLoader::~SoilImageLoader(){
 }
 
 ImageInfo SoilImageLoader::loadImage(const char* imageFile){
-	int width, height, channels;
-	unsigned char *img_data = SOIL_load_image(imageFile, &width, &height, &channels, SOIL_LOAD_RGBA);
+	int width = 0, height = 0, channels = 0;
+	unsigned char *img_data = SOIL_load_image(imageFile, &width, &height, &channels, SOIL_LOAD_AUTO);
 
 	// reverting by y
 	if(img_data){
@@ -28,6 +28,8 @@ ImageInfo SoilImageLoader::loadImage(const char* imageFile){
 				++index2;
 			}
 		}
+	}else{
+		printf("Result: %s\n", SOIL_last_result());
 	}
 
 	ImageInfo info;

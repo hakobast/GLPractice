@@ -18,11 +18,15 @@ Texture::Pointer OpenGLResourceManager::createTexture(const char* imageFile,
 
     ImageInfo info = imageLoader.loadImage(imageFile);
     if(info.success()){
-        auto texture = std::make_shared<OpenGLTexture>(info.width, info.height, filter, wrapMode);
+        auto texture = std::make_shared<OpenGLTexture>(
+            info.width,
+            info.height,
+            TextureFormat(info.channels),
+            filter, wrapMode
+        );
         texture->setData(info.data);
 
         imageLoader.freeImage(info);
-
         return texture;
     }
 

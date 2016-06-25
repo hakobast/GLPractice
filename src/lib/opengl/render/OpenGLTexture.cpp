@@ -4,8 +4,8 @@
 
 #include "OpenGLTexture.h"
 
-OpenGLTexture::OpenGLTexture(int width, int height, TextureFilter filter, TextureWrapMode wrapMode)
-	: Texture(width, height, filter, wrapMode
+OpenGLTexture::OpenGLTexture(int width, int height, TextureFormat format, TextureFilter filter, TextureWrapMode wrapMode)
+	: Texture(width, height, format, filter, wrapMode
 ) {
 	glGenTextures(1, &textureId_);
 
@@ -18,8 +18,8 @@ OpenGLTexture::OpenGLTexture(int width, int height, TextureFilter filter, Textur
 	unbind();
 }
 
-OpenGLTexture::OpenGLTexture(int width, int height)
-	: OpenGLTexture(width, height, TextureFilter::LINEAR, TextureWrapMode::CLAMP_TO_EDGE
+OpenGLTexture::OpenGLTexture(int width, int height, TextureFormat format)
+	: OpenGLTexture(width, height, format, TextureFilter::LINEAR, TextureWrapMode::CLAMP_TO_EDGE
 ){}
 
 OpenGLTexture::~OpenGLTexture(){
@@ -34,10 +34,10 @@ OpenGLTexture::~OpenGLTexture(){
 void OpenGLTexture::setData(const unsigned char* data){
 	bind();
 	if(!pixelSet){
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, getWidth(), getHeight(), 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, toGL(getFormat()), getWidth(), getHeight(), 1, toGL(getFormat()), GL_UNSIGNED_BYTE, data);
 		pixelSet = true;
 	}else{
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, getWidth(), getHeight(), GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, getWidth(), getHeight(), toGL(getFormat()), GL_UNSIGNED_BYTE, data);
 	}
 	unbind();
 }
@@ -48,6 +48,20 @@ void OpenGLTexture::bind(){
 
 void OpenGLTexture::unbind(){
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+GLenum OpenGLTexture::toGL(TextureFormat format){
+	switch(format){
+		case TextureFormat::RGB:{
+			return GL_RGB;
+		}
+		case TextureFormat::RGBA:{
+			return GL_RGBA;
+		}
+		default:{
+			return GL_RGB;
+		}
+	}
 }
 
 GLenum OpenGLTexture::toGL(TextureFilter filter){

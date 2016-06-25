@@ -37,7 +37,7 @@ Shape::Shape(){
             1.0f, 1.0f, 1.0f, 1.0f,
     };
 
-    auto texture = Resources::createTexture("res/textures/spaceship2.png");
+    auto texture = Resources::createTexture("res/textures/spaceship.png");
 
     auto shader = Resources::createShader("res/shaders/shader.vert", "res/shaders/shader.frag", {
         VertexAttributeLocation(0, "in_Position"),
