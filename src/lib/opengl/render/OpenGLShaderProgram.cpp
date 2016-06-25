@@ -48,14 +48,15 @@ void OpenGLShaderProgram::loadShaderFromString(GLenum shader_type, const char* s
 	}
 }
 
-void OpenGLShaderProgram::createAndLinkProgram() {
+void OpenGLShaderProgram::createProgram() {
 	program_ = glCreateProgram();
-
 	if (shaders_[VERTEX_SHADER] != 0)
 		glAttachShader(program_, shaders_[VERTEX_SHADER]);
 	if (shaders_[FRAGMENT_SHADER] != 0)
 		glAttachShader(program_, shaders_[FRAGMENT_SHADER]);
+}
 
+void OpenGLShaderProgram::linkProgram() {
 	glLinkProgram(program_);
 
 	GLint status;
@@ -67,16 +68,18 @@ void OpenGLShaderProgram::createAndLinkProgram() {
 		if (infoLogLength > 1) {
 			GLchar* infoLog = new GLchar[infoLogLength];
 			glGetProgramInfoLog(program_, infoLogLength, NULL, infoLog);
-            printf("Program linking log: %s\n", infoLog);
+			printf("Shader Program linking log: %s\n", infoLog);
 
 			delete[] infoLog;
 		} else {
-            printf("Program linking error\n");
+			printf("Shader Program linking error\n");
 		}
 
 		glDeleteProgram(program_);
 	}
 
+	glDetachShader(program_, shaders_[VERTEX_SHADER]);
+	glDetachShader(program_, shaders_[FRAGMENT_SHADER]);
 	glDeleteShader(shaders_[VERTEX_SHADER]);
 	glDeleteShader(shaders_[FRAGMENT_SHADER]);
 }
@@ -119,10 +122,22 @@ GLint OpenGLShaderProgram::getAttributeLocation(const std::string& name){
 	return location;
 }
 
-void OpenGLShaderProgram::setAttribute(const std::string& name, uint32_t index){
+void OpenGLShaderProgram::bindAttribute(const std::string &name, uint32_t index){
 	glBindAttribLocation(program_, index, name.c_str());
 }
 
 void OpenGLShaderProgram::setMat4x4(const std::string& name, const float* value){
 	glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, value);
+}
+
+void OpenGLShaderProgram::setInt(const std::string& name, int value){
+	glUniform1i(getUniformLocation(name), value);
+}
+
+void OpenGLShaderProgram::setFloat(const std::string& name, float value){
+	glUniform1f(getUniformLocation(name), value);
+}
+
+void OpenGLShaderProgram::setColor(const std::string& name, const Color& color){
+	glUniform4f(getUniformLocation(name), color.getR(), color.getG(), color.getB(), color.getR());
 }

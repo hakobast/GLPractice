@@ -6,23 +6,35 @@
 #define CLEARN_ENGINE_H
 
 
-#include "../asset/AssetLoader.h"
+#include "../asset/FileLoader.h"
+#include "../asset/ImageLoader.h"
 #include "../asset/RenderResourceManager.h"
 #include "../input/InputManager.h"
+#include "../window/WindowManager.h"
 
 class Engine {
 public:
+    static Engine& getInstance();
+
     Engine();
     ~Engine();
-    static Engine& getInstance();
     InputManager& getInputManager();
-    AssetLoader& getAssetLoader();
+    WindowManager& getWindowManager();
+    FileLoader& getAssetLoader();
     RenderResourceManager& getRenderResourceManager();
-private:
+
+    virtual void run();
+protected:
     static Engine* instance_;
-    AssetLoader* assetLoader_;
-    RenderResourceManager* renderResourceManager_;
+
     InputManager* inputManager_;
+    WindowManager* windowManager_;
+    FileLoader* assetLoader_;
+	ImageLoader* imageLoader_;
+    RenderResourceManager* renderResourceManager_;
+
+    virtual void initSystems();
+    virtual void gameLoop();
 };
 
 

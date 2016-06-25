@@ -2,14 +2,14 @@
 // Created by Hakob Astvatsatryan on 4/26/16.
 //
 
-#ifndef WIN_ASSET_LOADER_H
-#define WIN_ASSET_LOADER_H
+#ifndef WIN_FILE_LOADER_H
+#define WIN_FILE_LOADER_H
 
-#include "../AssetLoader.h"
+#include "../FileLoader.h"
 
-class WinAssetLoader : public AssetLoader {
+class WinFileLoader : public FileLoader {
 public:
-	virtual ~WinAssetLoader();
+	virtual ~WinFileLoader();
 	virtual AssetFile loadAsset(const char* path);
 	virtual void releaseAsset(const AssetFile* asset);
 };

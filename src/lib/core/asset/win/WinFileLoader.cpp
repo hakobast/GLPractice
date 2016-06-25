@@ -5,15 +5,15 @@
 #include <stdio.h>
 #include <fstream>
 
-#include "WinAssetLoader.h"
+#include "WinFileLoader.h"
 
 using namespace std;
 
-WinAssetLoader::~WinAssetLoader() {
-	printf("~WinAssetLoader\n");
+WinFileLoader::~WinFileLoader() {
+	printf("~WinFileLoader\n");
 }
 
-AssetFile WinAssetLoader::loadAsset(const char* path) {
+AssetFile WinFileLoader::loadAsset(const char* path) {
 	if (path != NULL) {
 		ifstream file(path, ios::in | ios::binary | ios::ate);
 		if (file.is_open()) {
@@ -31,7 +31,7 @@ AssetFile WinAssetLoader::loadAsset(const char* path) {
 	return AssetFile();
 }
 
-void WinAssetLoader::releaseAsset(const AssetFile* asset) {
+void WinFileLoader::releaseAsset(const AssetFile* asset) {
 	if (asset != NULL && asset->data != NULL) {
 		delete[] asset->data;
 	}

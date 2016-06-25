@@ -9,9 +9,18 @@
 
 class OpenGLResourceManager : public RenderResourceManager{
 public:
-    OpenGLResourceManager(AssetLoader& assetLoader):RenderResourceManager::RenderResourceManager(assetLoader){}
+    OpenGLResourceManager(FileLoader& assetLoader, ImageLoader& imageLoader)
+		    :RenderResourceManager::RenderResourceManager(assetLoader, imageLoader){}
+
     virtual ~OpenGLResourceManager();
-    virtual ShaderProgram::Pointer createShader(const char* vertexFile, const char* fragmentFile);
+
+	virtual Texture::Pointer createTexture(const char* imageFile,
+	                                       TextureFilter filter,
+	                                       TextureWrapMode wrapMode);
+
+    virtual ShaderProgram::Pointer createShader(const char* vertexFile,
+                                                const char* fragmentFile,
+                                                std::vector<VertexAttributeLocation> attributes);
     virtual Buffer::Pointer createBuffer();
     virtual Drawer::Pointer createDrawer();
 };

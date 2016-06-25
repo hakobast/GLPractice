@@ -4,9 +4,20 @@
 
 #include "Resources.h"
 #include "../game/Engine.h"
+#include "../render/VertexAttributeLocation.h"
 
-ShaderProgram::Pointer Resources::createShader(const char* vertexFile, const char* fragmentFile){
-    return Engine::getInstance().getRenderResourceManager().createShader(vertexFile, fragmentFile);
+Texture::Pointer Resources::createTexture(const char* imageFile,
+                                      TextureFilter filter,
+                                      TextureWrapMode wrapMode){
+
+    return Engine::getInstance().getRenderResourceManager().createTexture(imageFile, filter, wrapMode);
+}
+
+ShaderProgram::Pointer Resources::createShader(const char* vertexFile,
+                                               const char* fragmentFile,
+                                               std::vector<VertexAttributeLocation> attributes){
+
+    return Engine::getInstance().getRenderResourceManager().createShader(vertexFile, fragmentFile, attributes);
 }
 
 Buffer::Pointer Resources::createBuffer(){

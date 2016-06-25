@@ -36,6 +36,9 @@ GLenum OpenGLDrawer::toGL(AttributeFormat format){
         case AttributeFormat::INT:{
             return GL_INT;
         }
+        default:{
+            return 0;
+        }
     }
 }
 
@@ -46,6 +49,9 @@ GLenum OpenGLDrawer::toGL(DrawingType drawingType){
         }
         case DrawingType::QUAD:{
             return GL_QUADS;
+        }
+        default:{
+            return 0;
         }
     }
 }

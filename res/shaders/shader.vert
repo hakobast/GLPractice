@@ -1,13 +1,16 @@
 #version 110
 
-uniform mat4 mvpMat;
+uniform mat4 un_mvpMat;
 
-attribute vec4 vColor;
-attribute vec3 vPosition;
+attribute vec3 in_Position;
+attribute vec2 in_TexCoord;
+attribute vec4 in_Color;
 
-varying vec4 color;
+varying vec2 v_texCoord;
+varying vec4 v_color;
 
 void main(){
-    color = vColor;
-    gl_Position = mvpMat * vec4(vPosition, 1.0);
+    v_color = in_Color;
+    v_texCoord = in_TexCoord;
+    gl_Position = un_mvpMat * vec4(in_Position, 1.0);
 }

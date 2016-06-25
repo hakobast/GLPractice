@@ -8,10 +8,18 @@
 #include "../render/ShaderProgram.h"
 #include "../render/Buffer.h"
 #include "../render/Drawer.h"
+#include "../render/Texture.h"
+#include "../render/VertexAttributeLocation.h"
 
 class Resources {
 public:
-    static ShaderProgram::Pointer createShader(const char* vertexFile, const char* fragmentFile);
+	static Texture::Pointer createTexture(const char* imageFile,
+                                          TextureFilter filter = TextureFilter::LINEAR,
+                                          TextureWrapMode wrapMode = TextureWrapMode::CLAMP_TO_EDGE);
+
+    static ShaderProgram::Pointer createShader(const char* vertexFile,
+                                               const char* fragmentFile,
+                                               std::vector<VertexAttributeLocation> attributes);
     static Buffer::Pointer createBuffer();
     static Drawer::Pointer createDrawer();
 };

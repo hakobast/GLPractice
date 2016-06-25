@@ -5,7 +5,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-#include "../../utils/SmartPointer.h"
+#include "../utils/SmartPointer.h"
 
 class Buffer : public SmartPointer<Buffer>{
 public:

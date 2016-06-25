@@ -5,7 +5,7 @@
 #ifndef DRAWER_H
 #define DRAWER_H
 
-#include "../../utils/SmartPointer.h"
+#include "../utils/SmartPointer.h"
 #include "Buffer.h"
 #include <vector>
 
@@ -25,7 +25,9 @@ public:
     virtual ~Drawer(){}
     virtual void draw(DrawingType type, uint32_t startIndex, uint32_t count) = 0;
 
-    void addAttribute(uint32_t index, uint32_t size, AttributeFormat format, uint32_t stride, Buffer::Pointer buffer);
+    void addAttribute(uint32_t index, uint32_t size, AttributeFormat format, uint32_t stride, Buffer::Pointer buffer){
+        attributes.push_back(VertexAttribute(index, size, format, stride, buffer));
+    }
 protected:
     class VertexAttribute{
     public:

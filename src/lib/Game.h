@@ -10,5 +10,6 @@
 #include "core/input/Input.h"
 #include "core/asset/Resources.h"
 #include "core/utils/MathUtils.h"
+#include "opengl/OpenGL.h"
 
 #endif //CLEARN_GAME_H

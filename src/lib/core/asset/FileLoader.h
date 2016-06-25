@@ -2,11 +2,11 @@
 // Created by Hakob Astvatsatryan on 4/26/16.
 //
 
-#ifndef ASSET_LOADER_H
-#define ASSET_LOADER_H
+#ifndef FILE_LOADER_H
+#define FILE_LOADER_H
 
 struct AssetFile {
-	AssetFile(long length, const void* data, const void* handler) 
+	AssetFile(long length, const void* data, const void* handler)
 		:length(length), data(data), handler(handler){}
 	AssetFile()
 		:length(0), data(0), handler(0){}
@@ -16,9 +16,9 @@ struct AssetFile {
 	const void* handler = 0;
 };
 
-class AssetLoader {
+class FileLoader {
 public:
-	virtual ~AssetLoader(){}
+	virtual ~FileLoader(){}
 	virtual AssetFile loadAsset(const char* path) = 0;
 	virtual void releaseAsset(const AssetFile* asset) = 0;
 };

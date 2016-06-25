@@ -14,23 +14,33 @@ add_executable(CLearn ${SOURCE_FILES})
 # Add project modules path
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 
-# Find SMFL
+# Include SMFL
 find_package(SFML REQUIRED system window graphics network audio)
 if (SFML_FOUND)
     include_directories(${SFML_INCLUDE_DIR})
     target_link_libraries(CLearn ${SFML_LIBRARIES})
 endif()
 
-# Find OpenGL
+# Include OpenGL
 find_package(OpenGL REQUIRED)
 if(OPENGL_FOUND)
     include_directories(${OPENGL_INCLUDE_DIRS})
     target_link_libraries(CLearn ${OPENGL_LIBRARIES})
 endif()
 
-# Find GLM
+# Include GLM
 find_package(GLM REQUIRED)
 if(GLM_FOUND)
     include_directories(${GLM_INCLUDE_DIRS})
     target_link_libraries(CLearn ${GLM_LIBRARIES})
+endif()
+
+# Include SOIL
+target_link_libraries(CLearn ${CMAKE_SOURCE_DIR}/src/dependency/soil/libSOIL.a)
+
+
+# Include CoreFoundation
+find_library(CF_LIB_DIR CoreFoundation)
+if(CF_LIB_DIR)
+    target_link_libraries(CLearn ${CF_LIB_DIR})
 endif()
