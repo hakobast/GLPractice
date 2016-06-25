@@ -27,11 +27,11 @@ public:
 protected:
     static Engine* instance_;
 
-    InputManager* inputManager_;
-    WindowManager* windowManager_;
-    FileLoader* assetLoader_;
-	ImageLoader* imageLoader_;
-    RenderResourceManager* renderResourceManager_;
+    InputManager* inputManager_ = 0;
+    WindowManager* windowManager_ = 0;
+    FileLoader* assetLoader_ = 0;
+	ImageLoader* imageLoader_ = 0;
+    RenderResourceManager* renderResourceManager_ = 0;
 
     virtual void initSystems();
     virtual void gameLoop();

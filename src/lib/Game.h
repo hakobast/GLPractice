@@ -7,6 +7,7 @@
 
 #include "core/game/Engine.h"
 #include "core/game/GameObject.h"
+#include "core/game/Sprite.h"
 #include "core/input/Input.h"
 #include "core/asset/Resources.h"
 #include "core/utils/MathUtils.h"

@@ -9,6 +9,15 @@ GameObject::GameObject(){
 }
 
 GameObject::~GameObject() {
+    printf("~GameObject(%s)\n", this->name_.c_str());
+}
+
+void GameObject::setName(const std::string& name){
+    this->name_ = name;
+}
+
+std::string GameObject::getName() const{
+    return this->name_;
 }
 
 void GameObject::setPosition(const Vector2& position){

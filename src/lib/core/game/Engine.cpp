@@ -5,13 +5,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <SFML/Window.hpp>
 #include "Engine.h"
+#include "Sprite.h"
 #include "../asset/win/WinFileLoader.h"
 #include "../asset/soil/SoilImageLoader.h"
 #include "../../opengl/asset/OpenGLResourceManager.h"
 #include "../input/sfml/SFMLInputManager.h"
 #include "../../opengl/OpenGL.h"
 
-#include "../../../test/Shape.h"
+#include "../../../test/Spaceship.h"
 
 bool processEvents(sf::Window& window);
 Engine* Engine::instance_ = NULL;
@@ -86,9 +87,13 @@ void Engine::gameLoop() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
 
-    Shape shape;
+/*    Shape shape;
+    shape.setPosition(Vector2(0.0f, 0.0f));*/
 
-    shape.setPosition(Vector2(0.0f, 0.0f));
+    Sprite sprite("res/textures/spaceship.png");
+    sprite.setName("Spaceship");
+    sprite.setPosition(Vector2(0.0f, 0.0f));
+    sprite.setColor(Color(0.3f, 0.0f, 1.0f, 1.0f));
 
     bool running = true;
     while(running){
@@ -96,8 +101,11 @@ void Engine::gameLoop() {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        shape.update();
-        shape.draw(pMat, vMat);
+/*      shape.update();
+        shape.draw(pMat, vMat);*/
+
+        sprite.update();
+        sprite.draw(pMat, vMat);
 
         window.display();
     }
